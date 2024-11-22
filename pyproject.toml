@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "chatbot-rag"
+version = "0.1.0"
+description = ""
+authors = ["Ars Vladimirov <grokhael@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.115.5"
+langgraph = "^0.2.53"
+uvicorn = "^0.32.1"
+websockets = "^14.1"
+loguru = "^0.7.2"
+pydantic = "^2.10.1"
+pydantic-settings = "^2.6.1"
+langchain = "^0.3.7"
+chromadb = "^0.5.20"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
