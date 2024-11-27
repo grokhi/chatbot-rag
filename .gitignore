@@ -1,0 +1,8 @@
+./app_data
+app_data
+.venv/
+__pycache__/
+.DS_Store
+logs
+mysql-data
+.env
