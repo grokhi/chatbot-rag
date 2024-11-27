@@ -3,7 +3,7 @@ from chromadb.config import Settings
 from chromadb.utils import embedding_functions
 
 
-class VectorDB:
+class VectorDBHandler:
     def __init__(self, collection_name: str, dimension: int):
         """
         Initialize the vector database with the specified collection name and dimension.
@@ -44,7 +44,7 @@ class VectorDB:
 # Example usage
 if __name__ == "__main__":
     # Initialize the vector database with a collection name and dimension
-    vector_db = VectorDB(collection_name="example_collection", dimension=128)
+    vector_db = VectorDBHandler(collection_name="example_collection", dimension=128)
 
     # Create some random vectors and IDs
     vectors = [[0.1] * 128, [0.2] * 128, [0.3] * 128]

@@ -1,10 +1,11 @@
 from typing import Any, Dict
 
-from .logger import logger
+from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI, OpenAI
 
-# Assuming you have a language model client or API
-# For example, if using OpenAI's GPT, you might use openai-python package
-# import openai
+from backend.src.config import settings
+
+from .logger import logger
 
 
 class LLMHandler:
@@ -20,9 +21,11 @@ class LLMHandler:
         """
         self.model_name = model_name
         self.api_key = api_key
-        # Initialize your LLM client here
-        # For example, if using OpenAI:
-        # openai.api_key = self.api_key
+
+        # self.llm = ChatOpenAI(model=model_name, api_key=api_key)
+        self.llm = ChatGroq(
+            model="llama-3.1-70b-versatile",
+        )
 
     def generate_response(self, prompt: str, **kwargs) -> str:
         """
@@ -56,33 +59,10 @@ class LLMHandler:
             logger.error(f"Error generating response: {str(e)}")
             return "Error generating response."
 
-    def set_model(self, model_name: str):
-        """
-        Set a different model for the handler to use.
 
-        Args:
-            model_name (str): The name of the new model to use.
-        """
-        self.model_name = model_name
-        logger.info(f"Model set to {model_name}")
-
-    def set_api_key(self, api_key: str):
-        """
-        Set the API key for authenticating with the LLM service.
-
-        Args:
-            api_key (str): The new API key.
-        """
-        self.api_key = api_key
-        # If using a client that requires setting the API key, do it here
-        # For example, if using OpenAI:
-        # openai.api_key = self.api_key
-        logger.info("API key updated.")
-
-
-# Example usage
-if __name__ == "__main__":
-    handler = LLMHandler(api_key="your-api-key-here")
-    prompt = "What is the capital of France?"
-    response = handler.generate_response(prompt)
-    print(response)
+# # Example usage
+# if __name__ == "__main__":
+#     handler = LLMHandler(api_key=se")
+#     prompt = "What is the capital of France?"
+#     response = handler.generate_response(prompt)
+#     print(response)

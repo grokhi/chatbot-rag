@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     LLM_TEMPERATURE: float = 0.7
     LLM_MAX_TOKENS: int = 1000
     OPENAI_API_KEY: Optional[str] = None
+    GROQ_API_KEY: Optional[str] = None
 
     # Vector Database Settings
     VECTOR_DB_URL: str = "localhost"

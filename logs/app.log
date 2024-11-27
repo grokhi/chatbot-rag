@@ -1,0 +1,29 @@
+2024-11-26 12:06:41.973 | INFO     | backend.src.main:process_query:62 - Received query: weather in sf
+2024-11-26 12:10:20.458 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'relevance'
+2024-11-27 12:21:18.967 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 12:24:49.788 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'relevance'
+2024-11-27 12:38:03.479 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 12:38:21.202 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'relevance'
+2024-11-27 12:39:10.460 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 12:41:34.980 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'relevance'
+2024-11-27 12:41:38.899 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 12:43:35.770 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'relevance'
+2024-11-27 12:43:48.501 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 12:49:05.856 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'is_relevant'
+2024-11-27 12:50:48.863 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 12:51:54.656 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'is_relevant'
+2024-11-27 12:52:08.853 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 12:52:33.635 | ERROR    | backend.src.main:process_query:92 - Error processing query: 'is_relevant'
+2024-11-27 12:52:47.188 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 12:55:33.955 | ERROR    | backend.src.main:process_query:92 - Error processing query: 'is_relevant'
+2024-11-27 12:55:43.958 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 13:01:22.812 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 13:07:54.521 | ERROR    | backend.src.main:process_query:92 - Error processing query: 'is_relevant'
+2024-11-27 13:08:10.162 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 13:10:36.442 | ERROR    | backend.src.main:process_query:92 - Error processing query: 'ChatOpenAI' object has no attribute 'run'
+2024-11-27 13:11:15.040 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 13:11:29.622 | ERROR    | backend.src.main:process_query:92 - Error processing query: 'ChatOpenAI' object has no attribute 'run'
+2024-11-27 13:19:02.936 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 13:21:11.916 | ERROR    | backend.src.main:process_query:92 - Error processing query: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
+2024-11-27 13:43:09.339 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-27 13:44:27.893 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
