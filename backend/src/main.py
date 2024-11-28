@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 from backend.src.config import settings
-from backend.src.langgraph_setup import create_graph
+from backend.src.langgraph.setup import create_graph
 from backend.src.llm_handler import LLMHandler
 from backend.src.logger import logger
 from backend.src.vector_db import VectorDBHandler
@@ -74,7 +74,6 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
         }
 
         # Step 3: Process through LangGraph
-        # graph_response = graph.process(augmented_prompt)
         response = graph.invoke(augmented_prompt)
 
         # # Step 4: Generate response using LLM
