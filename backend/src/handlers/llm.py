@@ -3,9 +3,8 @@ from typing import Any, Dict
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI, OpenAI
 
-from backend.src.config import settings
-
-from .logger import logger
+from backend.src.core.config import settings
+from backend.src.core.logger import logger
 
 
 class LLMHandler:

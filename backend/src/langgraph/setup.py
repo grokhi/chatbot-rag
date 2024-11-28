@@ -11,9 +11,9 @@ from langchain_core.prompts import (
 )
 from langgraph.graph import END, START, MessagesState, StateGraph
 
+from backend.src.core.logger import logger
+from backend.src.handlers.llm import LLMHandler
 from backend.src.langgraph.utils import *
-from backend.src.llm_handler import LLMHandler
-from backend.src.logger import logger
 
 
 class AgentState(TypedDict):

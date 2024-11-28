@@ -5,11 +5,11 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
-from backend.src.config import settings
+from backend.src.core.config import settings
+from backend.src.core.logger import logger
+from backend.src.handlers.llm import LLMHandler
+from backend.src.handlers.vector_db import VectorDBHandler
 from backend.src.langgraph.setup import create_graph
-from backend.src.llm_handler import LLMHandler
-from backend.src.logger import logger
-from backend.src.vector_db import VectorDBHandler
 
 app = FastAPI(
     title="RAG Chatbot API",

@@ -1,7 +1,7 @@
 from langchain.schema import Document
 from langchain_community.tools import DuckDuckGoSearchRun
 
-from backend.src.vector_db import vector_handler as vh
+from backend.src.handlers.vector_db import vector_handler as vh
 
 web_search_tool = DuckDuckGoSearchRun()
 
