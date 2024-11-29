@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.schema import Document
@@ -7,13 +8,27 @@ from langchain.vectorstores import Chroma
 
 
 class VectorDBHandler:
-    def __init__(self, collection_name: str, embedding_model=None):
-        """
-        Initialize the VectorDBHandler.
+    """
+    Singleton class to manage a VectorDBHandler instance.
+    """
 
-        Args:
-            collection_name (str): Name of the ChromaDB collection.
-            embedding_model: Embedding model to use. Defaults to OpenAIEmbeddings.
+    _instance = None  # Class-level private instance
+
+    def __new__(
+        cls,
+        collection_name: Optional[str] = None,
+        embedding_model: Optional[object] = None,
+        *args,
+        **kwargs,
+    ):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._initialize(collection_name, embedding_model, *args, **kwargs)
+        return cls._instance
+
+    def _initialize(self, collection_name: Optional[str], embedding_model: Optional[object]):
+        """
+        Initialize the VectorDBHandler instance. Runs only once.
         """
         self.collection_name = collection_name
         self.embedding_model = embedding_model or OpenAIEmbeddings()
@@ -93,14 +108,20 @@ class VectorDBHandler:
             raise ValueError("Vectorstore is not initialized. Call `create_vectorstore` first.")
         return self.vectorstore
 
+    def get_retriever(self):
+        """
+        Get the underlying vectorstore object for advanced operations.
 
-# Initialize the VectorDBHandler
+        Returns:
+            Vectorstore object.
+        """
+        if not self.retriever:
+            raise ValueError("Retriever is not initialized. Call `create_vectorstore` first.")
+        return self.retriever
+
+
 vector_handler = VectorDBHandler(collection_name="qa_chroma")
-
-# Step 1: Load data from JSON file
 documents = vector_handler.load_data_from_json("data/RuBQ_2.0_dev.json")
-
-# Step 2: Create the vector store
 vector_handler.create_vectorstore(documents)
 
 if __name__ == "__main__":

@@ -13,7 +13,13 @@ from langgraph.graph import END, START, MessagesState, StateGraph
 
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
-from backend.src.langgraph.utils import *
+from backend.src.langgraph.nodes import (
+    generate,
+    grade_documents,
+    retrieve,
+    transform_query,
+    web_search,
+)
 
 
 class AgentState(TypedDict):
@@ -39,31 +45,6 @@ class LangGraphSetup:
     def __init__(self):
         """Initialize the LangGraph setup with necessary components."""
         self.model = LLMHandler()
-
-        # Define prompt templates
-        self.qa_template = PromptTemplate(
-            input_variables=["query", "context"],
-            template="""
-            Answer the following question based on the provided context. 
-            If you cannot find the answer in the context, say "I don't have enough information to answer this question."
-            
-            Context: {context}
-            Question: {query}
-            
-            Answer:""",
-        )
-
-        self.reasoning_template = PromptTemplate(
-            input_variables=["query", "context", "initial_answer"],
-            template="""
-            Given the following question and context, provide a step-by-step reasoning process:
-            
-            Question: {query}
-            Context: {context}
-            Initial Answer: {initial_answer}
-            
-            Reasoning steps:""",
-        )
 
     def create_workflow(self) -> StateGraph:
         """
