@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     LLM_MAX_TOKENS: int = 1000
     OPENAI_API_KEY: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None
+    GOOGLE_API_KEY: Optional[str] = None
+    LANGCHAIN_API_KEY: Optional[str] = None
+    LANGCHAIN_TRACING_V2: Optional[str] = None
 
     # Vector Database Settings
     VECTOR_DB_URL: str = "localhost"

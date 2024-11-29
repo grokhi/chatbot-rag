@@ -1,6 +1,6 @@
-from __future__ import annotations
+# from __future__ import annotations
 
-from typing import TYPE_CHECKING
+# from typing import TYPE_CHECKING
 
 from langchain import hub
 from langchain_core.output_parsers import StrOutputParser
@@ -8,8 +8,8 @@ from langchain_core.prompts import ChatPromptTemplate
 
 from backend.src.handlers.llm import LLMHandler
 
-if TYPE_CHECKING:
-    from backend.src.langgraph.setup import AgentState
+# if TYPE_CHECKING:
+#     from backend.src.langgraph.setup import AgentState
 
 
 llm = LLMHandler().get_llm()
@@ -30,7 +30,7 @@ re_write_prompt = ChatPromptTemplate.from_messages(
 question_rewriter = re_write_prompt | llm | StrOutputParser()
 
 
-def transform_query(state: AgentState):
+def transform_query(state):
     """
     Transform the query to produce a better question.
 

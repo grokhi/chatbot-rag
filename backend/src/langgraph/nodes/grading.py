@@ -1,14 +1,14 @@
-from __future__ import annotations
+# from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 
 from backend.src.handlers.llm import LLMHandler
 
-if TYPE_CHECKING:
-    from backend.src.langgraph.setup import AgentState
+# if TYPE_CHECKING:
+#     from backend.src.langgraph.setup import AgentState
 
 
 class GradeDocuments(BaseModel):
@@ -29,7 +29,7 @@ grade_prompt = ChatPromptTemplate.from_messages(
 retrieval_grader = grade_prompt | llm.with_structured_output(GradeDocuments)
 
 
-def grade_documents(state: AgentState):
+def grade_documents(state):
     print("---GRADE DOCUMENTS---")
     question = state["question"]
     documents = state["documents"]

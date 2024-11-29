@@ -1,17 +1,17 @@
-from __future__ import annotations
+# from __future__ import annotations
 
-from typing import TYPE_CHECKING
+# from typing import TYPE_CHECKING
 
 from langchain.schema import Document
 from langchain_community.tools import DuckDuckGoSearchRun
 
-if TYPE_CHECKING:
-    from backend.src.langgraph.setup import AgentState
+# if TYPE_CHECKING:
+#     from backend.src.langgraph.setup import AgentState
 
 web_search_tool = DuckDuckGoSearchRun()
 
 
-def web_search(state: AgentState):
+def web_search(state):
     """
     Web search based on the re-phrased question.
 

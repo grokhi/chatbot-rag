@@ -1,3 +1,5 @@
+# from __future__ import annotations
+
 import operator
 from typing import Annotated, Any, Dict, List, Literal, TypedDict, Union
 
@@ -13,6 +15,7 @@ from langgraph.graph import END, START, MessagesState, StateGraph
 
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
+from backend.src.handlers.vector_db import VectorDBHandler
 from backend.src.langgraph.nodes import (
     generate,
     grade_documents,
@@ -20,6 +23,23 @@ from backend.src.langgraph.nodes import (
     transform_query,
     web_search,
 )
+
+# def retrieve(state):
+#     """
+#         Retrieve documents
+#     5
+#         Args:
+#             state (dict): The current graph state
+
+#         Returns:
+#             state (dict): New key added to state, documents, that contains retrieved documents
+#     """
+#     print("---RETRIEVE---")
+#     question = state["question"]
+
+#     # Retrieval
+#     documents = VectorDBHandler().retriever.get_relevant_documents(question)
+#     return {"documents": documents, "question": question}
 
 
 class AgentState(TypedDict):

@@ -1,5 +1,6 @@
 from typing import Any, Dict
 
+from langchain_google_genai import GoogleGenerativeAI
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI, OpenAI
 
@@ -27,9 +28,14 @@ class LLMHandler:
         """
         # self.llm = ChatOpenAI(model=model)
         self.llm = ChatGroq(model="llama-3.1-70b-versatile")
+        # self.llm = GoogleGenerativeAI(model="gemini-1.5-flash")
 
     def get_llm(self):
         """
         Returns the LLM instance.
         """
         return self.llm
+
+
+# Initialize singleton
+LLMHandler(model="llama-3.1-70b-versatile")

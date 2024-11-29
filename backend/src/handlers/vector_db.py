@@ -1,10 +1,19 @@
 import json
 from typing import Optional
 
-from langchain.embeddings import OpenAIEmbeddings
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
+
+# from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores.utils import filter_complex_metadata
+
+# from langchain.embeddings import (
+#     GooglePalmEmbeddings,
+#     HuggingFaceEmbeddings,
+#     OpenAIEmbeddings,
+# )
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 
 class VectorDBHandler:
@@ -31,7 +40,10 @@ class VectorDBHandler:
         Initialize the VectorDBHandler instance. Runs only once.
         """
         self.collection_name = collection_name
-        self.embedding_model = embedding_model or OpenAIEmbeddings()
+        # self.embedding_model = embedding_model or OpenAIEmbeddings()
+        self.embedding_model = embedding_model or GoogleGenerativeAIEmbeddings(
+            model="models/embedding-001"
+        )
         self.vectorstore = None
         self.retriever = None
 
@@ -70,9 +82,12 @@ class VectorDBHandler:
             chunk_size (int): Size of text chunks. Defaults to 250.
             chunk_overlap (int): Overlap between text chunks. Defaults to 0.
         """
+
+        # Adjust your existing code
         text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
             chunk_size=chunk_size, chunk_overlap=chunk_overlap
         )
+        filter_complex_metadata(documents)
         splitted_docs = text_splitter.split_documents(documents)
 
         self.vectorstore = Chroma.from_documents(
@@ -80,6 +95,7 @@ class VectorDBHandler:
             collection_name=self.collection_name,
             embedding=self.embedding_model,
         )
+
         self.retriever = self.vectorstore.as_retriever()
 
     def query(self, query_text: str, top_k: int = 5) -> list[Document]:
