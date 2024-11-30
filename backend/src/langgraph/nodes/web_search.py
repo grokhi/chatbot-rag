@@ -5,6 +5,8 @@
 from langchain.schema import Document
 from langchain_community.tools import DuckDuckGoSearchResults
 
+from backend.src.core.logger import logger
+
 # if TYPE_CHECKING:
 #     from backend.src.langgraph.setup import AgentState
 
@@ -22,9 +24,10 @@ def web_search(state):
         state (dict): Updates documents key with appended web results
     """
 
-    print("---WEB SEARCH---")
     question = state["question"]
     documents = state["documents"]
+
+    logger.debug("WEB SEARCH", extra={"question": question})
 
     # Web search
     docs = web_search_tool.invoke(question)

@@ -35,7 +35,3 @@ class LLMHandler:
         Returns the LLM instance.
         """
         return self.llm
-
-
-# Initialize singleton
-LLMHandler(model="llama-3.1-70b-versatile")

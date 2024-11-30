@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 
+from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
 
 # if TYPE_CHECKING:
@@ -30,9 +31,12 @@ retrieval_grader = grade_prompt | llm.with_structured_output(GradeDocuments)
 
 
 def grade_documents(state):
-    print("---GRADE DOCUMENTS---")
+
     question = state["question"]
     documents = state["documents"]
+
+    logger.debug("GRADE DOCUMENTS", extra={"question": question})
+
     filtered_docs = []
     web_search = "No"
 

@@ -87,17 +87,17 @@ class LangGraphSetup:
                 str: Binary decision for next node to call
             """
 
-            print("---ASSESS GRADED DOCUMENTS---")
+            logger.debug("ASSESS GRADED DOCUMENTS")
             _web_search = state["web_search"]
 
-            if "yes" in _web_search.lower():
-                # All documents have been filtered check_relevance
-                # We will re-generate a new query
-                print("---DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY---")
+            if _web_search == "Yes":
+                logger.debug(
+                    "DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY"
+                )
                 return "transform_query"
             else:
                 # We have relevant documents, so generate answer
-                print("---DECISION: GENERATE---")
+                logger.debug("DECISION: GENERATE")
                 return "generate"
 
         # Define the nodes

@@ -7,6 +7,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
+from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
 
 # if TYPE_CHECKING:
@@ -41,10 +42,10 @@ def transform_query(state):
     Returns:
         state (dict): Updates question key with a re-phrased question
     """
-
-    print("---TRANSFORM QUERY---")
     question = state["question"]
     documents = state["documents"]
+
+    logger.debug("TRANSFORM QUERY", extra={"question": question})
 
     # Re-write question
     better_question = question_rewriter.invoke({"question": question})

@@ -134,18 +134,3 @@ class VectorDBHandler:
         if not self.retriever:
             raise ValueError("Retriever is not initialized. Call `create_vectorstore` first.")
         return self.retriever
-
-
-vector_handler = VectorDBHandler(collection_name="qa_chroma")
-documents = vector_handler.load_data_from_json("data/RuBQ_2.0_dev.json")
-vector_handler.create_vectorstore(documents)
-
-if __name__ == "__main__":
-
-    # Step 3: Query the vector store
-    query = "Which country does Easter Island belong to?"
-    results = vector_handler.query(query)
-
-    # Display results
-    for result in results:
-        print(f"Content: {result.page_content}\nMetadata: {result.metadata}\n")
