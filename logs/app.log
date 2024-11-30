@@ -27,3 +27,31 @@
 2024-11-27 13:21:11.916 | ERROR    | backend.src.main:process_query:92 - Error processing query: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/guides/error-codes/api-errors.', 'type': 'insufficient_quota', 'param': None, 'code': 'insufficient_quota'}}
 2024-11-27 13:43:09.339 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
 2024-11-27 13:44:27.893 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 11:16:44.833 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 11:16:44.894 | ERROR    | backend.src.main:process_query:91 - Error processing query: Expected node question to update at least one of ['question', 'generation', 'web_search', 'documents'], got {'input': 'What is the weather in sf?', 'context': [], 'chat_history': [], 'is_relevant': None}
+2024-11-30 11:19:51.035 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 11:23:50.789 | ERROR    | backend.src.main:process_query:91 - Error processing query: string indices must be integers
+2024-11-30 11:25:34.619 | INFO     | backend.src.main:process_query:62 - Received query: Which country does Easter Island belong to?
+2024-11-30 11:31:54.197 | INFO     | backend.src.main:process_query:62 - Received query: Which country does Easter Island belong to?
+2024-11-30 11:33:58.173 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 11:34:24.801 | ERROR    | backend.src.main:process_query:91 - Error processing query: https://duckduckgo.com/?q=Here%27s+a+rewritten+version+of+the+question+that%27s+more+specific+and+optimized+for+web+search%3A%0A%0A%22What+is+the+current+weather+forecast+for+San+Francisco%2C+CA%3F%22%0A%0AI+made+the+following+changes+to+improve+the+question%3A%0A%0A*+Added+%22current%22+to+specify+that+we%27re+looking+for+the+latest+weather+information.%0A*+Expanded+%22sf%22+to+%22San+Francisco%2C+CA%22+to+provide+more+context+and+location+information.%0A*+Changed+%22weather%22+to+%22weather+forecast%22+to+provide+more+relevant+search+results+that+include+forecasts+and+updates.%0A%0AThis+revised+question+is+more+likely+to+yield+accurate+and+helpful+search+results. return None. params={'q': 'Here\'s a rewritten version of the question that\'s more specific and optimized for web search:\n\n"What is the current weather forecast for San Francisco, CA?"\n\nI made the following changes to improve the question:\n\n* Added "current" to specify that we\'re looking for the latest weather information.\n* Expanded "sf" to "San Francisco, CA" to provide more context and location information.\n* Changed "weather" to "weather forecast" to provide more relevant search results that include forecasts and updates.\n\nThis revised question is more likely to yield accurate and helpful search results.'} content=None data=None
+2024-11-30 11:35:47.114 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:15:18.117 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:23:28.133 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:28:06.430 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:34:05.096 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:38:56.468 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:43:04.183 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:43:07.840 | ERROR    | backend.src.main:process_query:91 - Error processing query: https://links.duckduckgo.com/d.js?q=What+is+the+current+weather+forecast+in+San+Francisco%3F&kl=wt-wt&l=wt-wt&p=&s=0&df=y&vqd=4-251384818924577894765483904699932200245&bing_market=wt-WT&ex=-1 202 Ratelimit
+2024-11-30 14:49:16.024 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:49:43.782 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'content'
+2024-11-30 14:50:26.457 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 14:53:00.825 | ERROR    | backend.src.main:process_query:91 - Error processing query: 'content'
+2024-11-30 14:54:40.618 | INFO     | backend.src.main:process_query:62 - Received query: What is the weather in sf?
+2024-11-30 15:09:43.316 | INFO     | backend.src.main:process_query:63 - Received query: What is the weather in sf?
+2024-11-30 15:15:33.851 | INFO     | backend.src.main:process_query:67 - Received query: What is the weather in sf?
+2024-11-30 15:16:53.230 | INFO     | backend.src.main:process_query:67 - Received query: What is the weather in sf?
+2024-11-30 15:17:13.315 | INFO     | backend.src.main:process_query:67 - Received query: What is the weather in sf?
+2024-11-30 15:22:36.510 | INFO     | backend.src.main:process_query:67 - Received query: What is the weather in sf?
+2024-11-30 15:23:16.008 | INFO     | backend.src.main:process_query:67 - Received query: What is the weather in sf?
+2024-11-30 15:23:44.303 | INFO     | backend.src.main:process_query:67 - Received query: Which country does Easter Island belong to?

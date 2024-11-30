@@ -1,8 +1,9 @@
 import json
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
+from langchain.schema import Document
 from pydantic import BaseModel, Field
 
 from backend.src.core.config import settings
@@ -34,10 +35,14 @@ class FeedbackRequest(BaseModel):
     feedback: str
 
 
-class Response(BaseModel):
-    answer: str
-    sources: list
-    confidence: float
+class QueryResponse(BaseModel):
+    question: str
+    generation: str
+    web_search: str
+    documents: List[Document]
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 @app.get("/health")
@@ -46,7 +51,7 @@ async def health_check() -> Dict[str, str]:
     return {"status": "healthy"}
 
 
-@app.post("/query", response_model=Response)
+@app.post("/query", response_model=QueryResponse)
 async def process_query(request: QueryRequest) -> Dict[str, Any]:
     """
     Process chat queries using RAG approach
@@ -61,31 +66,18 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
         # Log incoming request
         logger.info(f"Received query: {request.query}")
 
-        # # Step 1: Retrieve relevant documents from vector DB
-        # relevant_docs = vector_db.search(request.query)
         relevant_docs = []
 
-        # Step 2: Prepare prompt with retrieved context
         augmented_prompt = {
-            "input": request.query,
-            "context": relevant_docs,
-            "chat_history": request.context.get("chat_history", []),
-            "is_relevant": None,
+            "question": request.query,
+            "generation": "",
+            "web_search": "",
+            "documents": [],
         }
 
-        # Step 3: Process through LangGraph
         response = graph.invoke(augmented_prompt)
 
-        # # Step 4: Generate response using LLM
-        # response = llm_handler.generate_response(
-        #     query=request.query, context=relevant_docs, graph_output=graph_response
-        # )
-
-        return {
-            "answer": response,
-            "sources": [doc.metadata for doc in relevant_docs],
-            "confidence": response.get("confidence", 1.0),
-        }
+        return response
 
     except Exception as e:
         logger.error(f"Error processing query: {str(e)}")

@@ -40,7 +40,8 @@ def grade_documents(state):
         result = retrieval_grader.invoke({"question": question, "document": doc.page_content})
         if result.binary_score == "yes":
             filtered_docs.append(doc)
-        else:
-            web_search = "Yes"
+
+    if len(filtered_docs) == 0:
+        web_search = "Yes"
 
     return {"documents": filtered_docs, "question": question, "web_search": web_search}
