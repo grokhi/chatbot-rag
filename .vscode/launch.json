@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Local debug",
+            "name": "Run Backend",
             "type": "python",
             "request": "launch",
             "module": "uvicorn",
@@ -14,7 +14,7 @@
                 "8000",
                 "--ws",
                 "websockets",
-                "--reload",
+                "--reload"
             ],
             "jinja": true,
             "justMyCode": false,
@@ -23,6 +23,29 @@
                 "PYTHONPATH": "${workspaceFolder}:${PYTHONPATH}",
                 "LOG_LEVEL": "DEBUG"
             }
+        },
+        {
+            "name": "Run Frontend (Gradio)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/frontend/src/main.py",
+            "args": [],
+            "jinja": true,
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}:${PYTHONPATH}",
+                "LOG_LEVEL": "DEBUG"
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run All",
+            "configurations": [
+                "Run Backend",
+                "Run Frontend (Gradio)"
+            ]
         }
     ]
 }
