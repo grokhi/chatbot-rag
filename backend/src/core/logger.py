@@ -9,7 +9,11 @@ def setup_logging():
     base_logger.remove()
     base_logger.add(
         sys.stdout,
-        format="<green>{level}:</green> <cyan>{time:YYYY-MM-DD HH:mm:ss}</cyan> - <level>{message}</level> <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan>",
+        format=(
+            "<green>{level}:</green> <cyan>{time:YYYY-MM-DD HH:mm:ss}</cyan> - "
+            "<level>{message}</level> "
+            "<dim>{file}:{line}</dim>"
+        ),
         level=settings.LOG_LEVEL,
     )
     if settings.LOG_FILE is not None:

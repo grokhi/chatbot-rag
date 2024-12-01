@@ -97,7 +97,7 @@ class LangGraphSetup:
                 return "transform_query"
             else:
                 # We have relevant documents, so generate answer
-                logger.debug("DECISION: GENERATE")
+                logger.debug("DECISION: AT LEAST ONE DOCUMENT IS RELATED TO THE QUESTION, GENERATE")
                 return "generate"
 
         # Define the nodes

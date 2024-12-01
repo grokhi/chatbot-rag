@@ -15,7 +15,6 @@ class LLMHandler:
 
     def __new__(cls, llm: BaseChatModel = None):
         if not cls._instance:
-            # Create a new instance if none exists
             cls._instance = super().__new__(cls)
             cls._instance._initialize(llm)
         return cls._instance

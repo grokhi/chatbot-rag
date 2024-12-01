@@ -8,6 +8,10 @@ mysql-data
 .env
 ./logs
 
+backend/__pycache__/
+frontend/__pycache__/
+
+
 data/*
 !data/datasets/ 
 !data/datasets/**

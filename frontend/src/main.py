@@ -1,8 +1,9 @@
+import os
+
 import gradio as gr
 import requests
 
-# Backend API base URL
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "http://{}:{}".format(os.getenv("HOST", "localhost"), os.getenv("PORT", 8000))
 
 
 def query_chatbot(chat_history, user_message):
@@ -64,4 +65,4 @@ with gr.Blocks() as app:
 
 # Launch the app
 if __name__ == "__main__":
-    app.launch()
+    app.launch(share=False)

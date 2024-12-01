@@ -161,12 +161,16 @@ class VectorDBHandler:
 
         # Check if vectorstore cache exists
         if os.path.exists(self._vectorstore_path) and self._force_reload is False:
-            self._vectorstore = Chroma(persist_directory=self._vectorstore_path)
+            self._vectorstore = Chroma(
+                persist_directory=self._vectorstore_path,
+                collection_name=self._collection_name,
+                embedding_function=self._embedding_model,
+            )
         else:
             self._vectorstore = Chroma.from_documents(
                 documents=splitted_docs,
-                collection_name=self.collection_name,
-                embedding=self.embedding_model,
+                collection_name=self._collection_name,
+                embedding=self._embedding_model,
                 persist_directory=self._vectorstore_path,
             )
 

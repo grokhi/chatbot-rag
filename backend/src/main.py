@@ -80,5 +80,5 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
         return response
 
     except Exception as e:
-        logger.error(f"Error processing query: {str(e)}")
+        logger.exception(f"Error processing query: {e}")
         raise HTTPException(status_code=500, detail=str(e))

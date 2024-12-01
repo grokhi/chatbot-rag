@@ -12,17 +12,18 @@ from backend.src.handlers.vector_db import VectorDBHandler
 
 def retrieve(state):
     """
-        Retrieve documents
-    5
-        Args:
-            state (dict): The current graph state
+    Retrieve documents
 
-        Returns:
-            state (dict): New key added to state, documents, that contains retrieved documents
+    Args:
+        state (dict): The current graph state
+
+    Returns:
+        state (dict): New key added to state, documents, that contains retrieved documents
     """
     question = state["question"]
     logger.debug(f"RETRIEVE", extra={"question": question})
 
     # Retrieval
-    documents = VectorDBHandler().retriever.get_relevant_documents(question)
+    v = VectorDBHandler()
+    documents = v.retriever.invoke(question)
     return {"documents": documents, "question": question}
