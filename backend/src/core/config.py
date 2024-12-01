@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     VECTOR_DB_URL: str = "localhost"
     VECTOR_DB_PORT: int = 8080
     VECTOR_DB_API_KEY: Optional[str] = None
+    DATA_DIR: str = "data"
 
     # Embedding Settings
     EMBEDDING_MODEL: str  # = os.getenv("EMBEDDING_MODEL", "text-embedding-ada-002")

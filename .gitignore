@@ -7,3 +7,7 @@ logs
 mysql-data
 .env
 ./logs
+
+data/*
+!data/datasets/ 
+!data/datasets/**

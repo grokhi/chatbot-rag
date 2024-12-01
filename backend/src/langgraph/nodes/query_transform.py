@@ -13,9 +13,6 @@ from backend.src.handlers.llm import LLMHandler
 # if TYPE_CHECKING:
 #     from backend.src.langgraph.setup import AgentState
 
-
-llm = LLMHandler().get_llm()
-
 # Prompt
 system = """You a question re-writer that converts an input question to a better version that is optimized \n 
      for web search. Look at the input and try to reason about the underlying semantic intent / meaning. Message should be oneline."""
@@ -29,7 +26,7 @@ re_write_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-question_rewriter = re_write_prompt | llm | StrOutputParser()
+question_rewriter = re_write_prompt | LLMHandler().llm | StrOutputParser()
 
 
 def transform_query(state):

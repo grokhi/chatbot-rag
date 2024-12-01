@@ -29,9 +29,3 @@ class LLMHandler:
         # self.llm = ChatOpenAI(model=model)
         self.llm = ChatGroq(model="llama-3.1-70b-versatile")
         # self.llm = GoogleGenerativeAI(model="gemini-1.5-flash")
-
-    def get_llm(self):
-        """
-        Returns the LLM instance.
-        """
-        return self.llm
