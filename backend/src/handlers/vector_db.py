@@ -20,16 +20,10 @@ class VectorDBHandler:
     VECTORSTORE_DIR = "vectorstore_cache"
     DS_HASH_DIR = "dataset_hash"
 
-    def __new__(
-        cls,
-        collection_name: str,
-        embedding_model: Any,
-        *args,
-        **kwargs,
-    ):
+    def __new__(cls, collection_name: str = None, embedding_model: Any = None):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
-            cls._instance._initialize(collection_name, embedding_model, *args, **kwargs)
+            cls._instance._initialize(collection_name, embedding_model)
         return cls._instance
 
     def _initialize(self, collection_name: str, embedding_model: Any):

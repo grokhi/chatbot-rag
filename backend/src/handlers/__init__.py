@@ -1,10 +1,11 @@
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_groq import ChatGroq
 
 from backend.src.handlers.llm import LLMHandler
 from backend.src.handlers.vector_db import VectorDBHandler
 
 # initialize singletons
-LLMHandler(model="llama-3.1-70b-versatile")
+LLMHandler(llm=ChatGroq(model="llama-3.1-70b-versatile"))
 vector_handler = VectorDBHandler(
     collection_name="qa_chroma",
     embedding_model=GoogleGenerativeAIEmbeddings(model="models/embedding-001"),

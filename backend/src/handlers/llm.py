@@ -1,8 +1,6 @@
 from typing import Any, Dict
 
-from langchain_google_genai import GoogleGenerativeAI
-from langchain_groq import ChatGroq
-from langchain_openai import ChatOpenAI, OpenAI
+from langchain_core.language_models import BaseChatModel
 
 from backend.src.core.config import settings
 from backend.src.core.logger import logger
@@ -13,19 +11,21 @@ class LLMHandler:
     Singleton class to manage a single instance of the LLM (ChatOpenAI).
     """
 
-    _instance = None  # Class-level private instance
+    _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, llm: BaseChatModel = None):
         if not cls._instance:
             # Create a new instance if none exists
             cls._instance = super().__new__(cls)
-            cls._instance._initialize(*args, **kwargs)
+            cls._instance._initialize(llm)
         return cls._instance
 
-    def _initialize(self, model: str):
+    def _initialize(self, llm: BaseChatModel):
         """
         Initialize the LLMHandler instance. This runs only once.
         """
-        # self.llm = ChatOpenAI(model=model)
-        self.llm = ChatGroq(model="llama-3.1-70b-versatile")
-        # self.llm = GoogleGenerativeAI(model="gemini-1.5-flash")
+        self._llm = llm
+
+    @property
+    def llm(self):
+        return self._llm
