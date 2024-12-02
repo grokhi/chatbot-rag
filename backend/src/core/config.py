@@ -6,7 +6,6 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     HOST: str = "localhost"
     PORT: int = 8000
-    DEBUG_MODE: bool = False
 
     # LLM Settings
     LLM_MODEL: str
@@ -17,6 +16,7 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: Optional[str] = None
     LANGCHAIN_API_KEY: Optional[str] = None
     LANGCHAIN_TRACING_V2: Optional[str] = None
+    TAVILY_API_KEY: Optional[str] = None
 
     # Vector Database Settings
     VECTOR_DB_URL: str = "localhost"

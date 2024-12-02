@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 from langchain.schema import Document
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
 
 from backend.src.core.config import settings
@@ -65,20 +66,18 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
     try:
         # Log incoming request
         logger.info(f"Received query: {request.query}")
-
-        relevant_docs = []
-
         augmented_prompt = {
-            "question": request.query,
+            "question": HumanMessage(content=request.query),
             "generation": "",
             "web_search": "",
             "documents": [],
         }
+        config = {"configurable": {"thread_id": "1"}}
 
-        response = graph.invoke(augmented_prompt)
+        response = graph.invoke(augmented_prompt, config)
 
         return response
 
     except Exception as e:
-        logger.exception(f"Error processing query: {e}")
+        logger.exception(f"Error processing query: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))

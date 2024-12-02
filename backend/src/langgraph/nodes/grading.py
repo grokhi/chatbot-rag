@@ -16,9 +16,6 @@ class GradeDocuments(BaseModel):
     binary_score: str = Field(description="Binary 'yes' or 'no' relevance score")
 
 
-# Fetch the singleton LLM instance
-llm = LLMHandler().llm
-
 # Define the prompt
 system = """You are a grader assessing relevance of a retrieved document to a user question. 
 If the document contains keyword(s) or semantic meaning related to the question, grade it as relevant.
@@ -27,7 +24,7 @@ Give a binary score 'yes' or 'no' score to indicate whether the document is rele
 grade_prompt = ChatPromptTemplate.from_messages(
     [("system", system), ("human", "Document: {document} Question: {question}")]
 )
-retrieval_grader = grade_prompt | llm.with_structured_output(GradeDocuments)
+retrieval_grader = grade_prompt | LLMHandler().llm.with_structured_output(GradeDocuments)
 
 
 def grade_documents(state):

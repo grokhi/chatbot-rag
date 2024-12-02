@@ -16,15 +16,15 @@ def setup_logging():
         ),
         level=settings.LOG_LEVEL,
     )
-    if settings.LOG_FILE is not None:
-        base_logger.add(
-            settings.LOG_FILE,
-            rotation="500 MB",
-            retention="10 days",
-            level="DEBUG",
-            backtrace=True,
-            diagnose=True,
-        )
+    # if settings.LOG_FILE is not None:
+    #     base_logger.add(
+    #         settings.LOG_FILE,
+    #         rotation="500 MB",
+    #         retention="10 days",
+    #         level="DEBUG",
+    #         backtrace=True,
+    #         diagnose=True,
+    #     )
     return base_logger
 
 

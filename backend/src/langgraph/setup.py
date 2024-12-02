@@ -11,11 +11,11 @@ from langchain_core.prompts import (
     ChatPromptTemplate,
     PromptTemplate,
 )
+from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, MessagesState, StateGraph
 
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
-from backend.src.handlers.vector_db import VectorDBHandler
 from backend.src.langgraph.nodes import (
     generate,
     grade_documents,
@@ -61,10 +61,6 @@ class AgentState(TypedDict):
 
 class LangGraphSetup:
     """Setup class for creating and managing the LangGraph workflow."""
-
-    def __init__(self):
-        """Initialize the LangGraph setup with necessary components."""
-        self.model = LLMHandler()
 
     def create_workflow(self) -> StateGraph:
         """
@@ -115,7 +111,9 @@ class LangGraphSetup:
         workflow.add_edge("web_search_node", "generate")
         workflow.add_edge("generate", END)
 
-        return workflow.compile()
+        memory = MemorySaver()
+
+        return workflow.compile(checkpointer=memory)
 
 
 def create_graph() -> StateGraph:

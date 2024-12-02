@@ -24,6 +24,5 @@ def retrieve(state):
     logger.debug(f"RETRIEVE", extra={"question": question})
 
     # Retrieval
-    v = VectorDBHandler()
-    documents = v.retriever.invoke(question)
+    documents = VectorDBHandler().retriever.invoke(question.content)
     return {"documents": documents, "question": question}
