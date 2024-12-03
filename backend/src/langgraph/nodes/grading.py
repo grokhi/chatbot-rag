@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
+from backend.src.langgraph.state import AgentState
 
 # if TYPE_CHECKING:
 #     from backend.src.langgraph.setup import AgentState
@@ -24,10 +25,11 @@ Give a binary score 'yes' or 'no' score to indicate whether the document is rele
 grade_prompt = ChatPromptTemplate.from_messages(
     [("system", system), ("human", "Document: {document} Question: {question}")]
 )
-retrieval_grader = grade_prompt | LLMHandler().llm.with_structured_output(GradeDocuments)
+llm = LLMHandler().llm
+retrieval_grader = grade_prompt | llm.with_structured_output(GradeDocuments)
 
 
-def grade_documents(state):
+def grade_documents(state: AgentState):
 
     question = state["question"]
     documents = state["documents"]

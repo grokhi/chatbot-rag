@@ -13,6 +13,7 @@ from langchain_core.prompts import (
 )
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, MessagesState, StateGraph
+from langgraph.prebuilt import ToolNode, tools_condition
 
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
@@ -23,40 +24,9 @@ from backend.src.langgraph.nodes import (
     transform_query,
     web_search,
 )
+from backend.src.langgraph.state import AgentState
 
-# def retrieve(state):
-#     """
-#         Retrieve documents
-#     5
-#         Args:
-#             state (dict): The current graph state
-
-#         Returns:
-#             state (dict): New key added to state, documents, that contains retrieved documents
-#     """
-#     print("---RETRIEVE---")
-#     question = state["question"]
-
-#     # Retrieval
-#     documents = VectorDBHandler().retriever.get_relevant_documents(question)
-#     return {"documents": documents, "question": question}
-
-
-class AgentState(TypedDict):
-    """
-    Represents the state of our graph.
-
-    Attributes:
-        question: question
-        generation: LLM generation
-        web_search: whether to add search
-        documents: list of documents
-    """
-
-    question: str
-    generation: str
-    web_search: str
-    documents: List[str]
+memory = MemorySaver()
 
 
 class LangGraphSetup:
@@ -84,9 +54,7 @@ class LangGraphSetup:
             """
 
             logger.debug("ASSESS GRADED DOCUMENTS")
-            _web_search = state["web_search"]
-
-            if _web_search == "Yes":
+            if state["web_search"] == "Yes":
                 logger.debug(
                     "DECISION: ALL DOCUMENTS ARE NOT RELEVANT TO QUESTION, TRANSFORM QUERY"
                 )
@@ -96,12 +64,19 @@ class LangGraphSetup:
                 logger.debug("DECISION: AT LEAST ONE DOCUMENT IS RELATED TO THE QUESTION, GENERATE")
                 return "generate"
 
+        # def agent(state: AgentState):
+        #     if isinstance(state["messages"][-1], HumanMessage):
+        #         return {"messages": retrieval_grader.invoke()}
+        #     if state["web_search"] == "True":
+        #         pass
+
+        # LLMHandler().llm.bind_tools([retrieve])
         # Define the nodes
-        workflow.add_node("retrieve", retrieve)  # retrieve
-        workflow.add_node("grade_documents", grade_documents)  # grade documents
-        workflow.add_node("generate", generate)  # generatae
-        workflow.add_node("transform_query", transform_query)  # transform_query
-        workflow.add_node("web_search_node", web_search)  # web search
+        workflow.add_node("retrieve", retrieve)
+        workflow.add_node("grade_documents", grade_documents)
+        workflow.add_node("generate", generate)
+        workflow.add_node("transform_query", transform_query)
+        workflow.add_node("web_search_node", web_search)
 
         # Build graph
         workflow.add_edge(START, "retrieve")
@@ -110,8 +85,6 @@ class LangGraphSetup:
         workflow.add_edge("transform_query", "web_search_node")
         workflow.add_edge("web_search_node", "generate")
         workflow.add_edge("generate", END)
-
-        memory = MemorySaver()
 
         return workflow.compile(checkpointer=memory)
 

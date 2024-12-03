@@ -2,6 +2,7 @@
 
 from backend.src.core.logger import logger
 from backend.src.handlers.vector_db import VectorDBHandler
+from backend.src.langgraph.state import AgentState
 
 # from typing import TYPE_CHECKING
 
@@ -10,18 +11,10 @@ from backend.src.handlers.vector_db import VectorDBHandler
 #     from backend.src.langgraph.setup import AgentState
 
 
-def retrieve(state):
-    """
-    Retrieve documents
+def retrieve(state: AgentState):
 
-    Args:
-        state (dict): The current graph state
-
-    Returns:
-        state (dict): New key added to state, documents, that contains retrieved documents
-    """
     question = state["question"]
-    logger.debug(f"RETRIEVE", extra={"question": question})
+    logger.debug("RETRIEVE", extra={"question": question})
 
     # Retrieval
     documents = VectorDBHandler().retriever.invoke(question.content)

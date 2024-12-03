@@ -21,8 +21,8 @@
             "envFile": "${workspaceFolder}/.env",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}:${PYTHONPATH}",
-                "LOG_LEVEL": "DEBUG",
-                "PYTHONASYNCIODEBUG": "1"
+                "LOG_LEVEL": "DEBUG"
+                // "PYTHONASYNCIODEBUG": "1"
             }
         },
         {

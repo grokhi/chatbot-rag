@@ -8,6 +8,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
+from backend.src.langgraph.state import AgentState
 
 # if TYPE_CHECKING:
 #     from backend.src.langgraph.setup import AgentState
@@ -24,11 +25,11 @@ re_write_prompt = ChatPromptTemplate.from_messages(
         ),
     ]
 )
+llm = LLMHandler().llm
+question_rewriter = re_write_prompt | llm | StrOutputParser()
 
-question_rewriter = re_write_prompt | LLMHandler().llm | StrOutputParser()
 
-
-def transform_query(state):
+def transform_query(state: AgentState):
     """
     Transform the query to produce a better question.
 

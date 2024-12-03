@@ -9,8 +9,6 @@ from pydantic import BaseModel, Field
 
 from backend.src.core.config import settings
 from backend.src.core.logger import logger
-from backend.src.handlers.llm import LLMHandler
-from backend.src.handlers.vector_db import VectorDBHandler
 from backend.src.langgraph.setup import create_graph
 
 app = FastAPI(
@@ -19,9 +17,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Initialize components
-# vector_db = VectorDBHandler()
-llm_handler = LLMHandler()
 graph = create_graph()
 
 
@@ -29,11 +24,6 @@ graph = create_graph()
 class QueryRequest(BaseModel):
     query: str = Field(default="What is the weather in sf?")
     context: Optional[Dict[str, Any]] = {}
-
-
-class FeedbackRequest(BaseModel):
-    query_id: str
-    feedback: str
 
 
 class QueryResponse(BaseModel):
@@ -44,12 +34,6 @@ class QueryResponse(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
-
-
-@app.get("/health")
-async def health_check() -> Dict[str, str]:
-    """Health check endpoint"""
-    return {"status": "healthy"}
 
 
 @app.post("/query", response_model=QueryResponse)
@@ -68,16 +52,23 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
         logger.info(f"Received query: {request.query}")
         augmented_prompt = {
             "question": HumanMessage(content=request.query),
-            "generation": "",
-            "web_search": "",
-            "documents": [],
+            "messages": [HumanMessage(content=request.query)],
         }
         config = {"configurable": {"thread_id": "1"}}
 
         response = graph.invoke(augmented_prompt, config)
+
+        for m in response["messages"]:
+            m.pretty_print()
 
         return response
 
     except Exception as e:
         logger.exception(f"Error processing query: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/health")
+async def health_check() -> Dict[str, str]:
+    """Health check endpoint"""
+    return {"status": "healthy"}
