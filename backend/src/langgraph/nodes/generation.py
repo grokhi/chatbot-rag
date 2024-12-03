@@ -2,6 +2,7 @@
 
 # from typing import TYPE_CHECKING
 
+from langchain_core.messages import AIMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -37,4 +38,9 @@ def generate(state: AgentState):
     logger.debug(f"GENERATE", extra={"question": question})
     documents = state["documents"]
     generation = rag_chain.invoke({"context": documents, "question": question})
-    return {"documents": documents, "question": question, "generation": generation}
+    return {
+        "documents": documents,
+        "question": question,
+        "generation": generation,
+        "messages": [AIMessage(content=generation)],
+    }

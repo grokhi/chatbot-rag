@@ -2,6 +2,8 @@
 
 from typing import TYPE_CHECKING
 
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 
@@ -28,6 +30,20 @@ grade_prompt = ChatPromptTemplate.from_messages(
 llm = LLMHandler().llm
 retrieval_grader = grade_prompt | llm.with_structured_output(GradeDocuments)
 
+system = """You an attentive question re-writer that considers the context, 
+which is a sequence previously asked questions and updates the question
+Context: {context}"""
+attention_prompt = ChatPromptTemplate.from_messages(
+    [
+        SystemMessage(system),
+        (
+            "human",
+            "Here is the actual question: \n\n {question} \n Formulate an improved question considering context.",
+        ),
+    ]
+)
+question_rewriter_attention = attention_prompt | llm | StrOutputParser()
+
 
 def grade_documents(state: AgentState):
 
@@ -35,6 +51,13 @@ def grade_documents(state: AgentState):
     documents = state["documents"]
 
     logger.debug("GRADE DOCUMENTS", extra={"question": question})
+
+    old_human_messages = [x.content for x in state["messages"] if isinstance(x, HumanMessage)][:-1]
+
+    if len(old_human_messages) > 0:
+        question = question_rewriter_attention.invoke(
+            {"question": question, "context": old_human_messages}
+        )
 
     filtered_docs = []
     web_search = "No"
