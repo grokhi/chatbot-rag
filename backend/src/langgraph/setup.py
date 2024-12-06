@@ -18,6 +18,7 @@ from langgraph.prebuilt import ToolNode, tools_condition
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
 from backend.src.langgraph.nodes import (
+    contextualize,
     generate,
     grade_documents,
     retrieve,
@@ -72,6 +73,7 @@ class LangGraphSetup:
 
         # LLMHandler().llm.bind_tools([retrieve])
         # Define the nodes
+        workflow.add_node("contextualize", contextualize)
         workflow.add_node("retrieve", retrieve)
         workflow.add_node("grade_documents", grade_documents)
         workflow.add_node("generate", generate)
@@ -79,7 +81,9 @@ class LangGraphSetup:
         workflow.add_node("web_search_node", web_search)
 
         # Build graph
-        workflow.add_edge(START, "retrieve")
+        workflow.add_edge(START, "contextualize")
+        workflow.add_edge("contextualize", "retrieve")
+        # workflow.add_edge(START, "retrieve")
         workflow.add_edge("retrieve", "grade_documents")
         workflow.add_conditional_edges("grade_documents", decide_to_generate)
         workflow.add_edge("transform_query", "web_search_node")

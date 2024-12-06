@@ -28,7 +28,7 @@ class QueryRequest(BaseModel):
 
 class QueryResponse(BaseModel):
     question: str
-    generation: str
+    answer: str
     web_search: str
     documents: List[Document]
 
@@ -51,7 +51,7 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
         # Log incoming request
         logger.info(f"Received query: {request.query}")
         augmented_prompt = {
-            "question": HumanMessage(content=request.query),
+            "question": request.query,
             "messages": [HumanMessage(content=request.query)],
         }
         config = {"configurable": {"thread_id": "1"}}

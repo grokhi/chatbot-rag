@@ -17,5 +17,7 @@ def retrieve(state: AgentState):
     logger.debug("RETRIEVE", extra={"question": question})
 
     # Retrieval
-    documents = VectorDBHandler().retriever.invoke(question.content)
+    documents = VectorDBHandler().retriever.invoke(question)
+    # rm duplicates
+    documents = list({frozenset(d.metadata.items()): d for d in documents}.values())
     return {"documents": documents, "question": question}

@@ -32,15 +32,43 @@ prompt = ChatPromptTemplate(
 llm = LLMHandler().llm
 rag_chain = prompt | llm | StrOutputParser()
 
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+
+store = {}
+
+
+def get_session_history(session_id: str) -> BaseChatMessageHistory:
+    if session_id not in store:
+        store[session_id] = ChatMessageHistory()
+    return store[session_id]
+
+
+conversational_rag_chain = RunnableWithMessageHistory(
+    rag_chain,
+    get_session_history,
+    input_messages_key="question",
+    history_messages_key="chat_history",
+    output_messages_key="answer",
+)
+
 
 def generate(state: AgentState):
     question = state["question"]
-    logger.debug(f"GENERATE", extra={"question": question})
+    messages = state["messages"]
     documents = state["documents"]
+    logger.debug(f"GENERATE", extra={"question": question})
+
+    res = conversational_rag_chain.invoke(
+        {"question": question, "context": documents},
+        config={"configurable": {"session_id": "abc123"}},  # constructs a key "abc123" in `store`.
+    )
+    print(res)
     generation = rag_chain.invoke({"context": documents, "question": question})
     return {
         "documents": documents,
         "question": question,
-        "generation": generation,
-        "messages": [AIMessage(content=generation)],
+        "answer": generation,
+        # "messages": [AIMessage(content=generation)],
     }
