@@ -5,7 +5,7 @@ from backend.src.handlers.llm import LLMHandler
 from backend.src.handlers.vector_db import VectorDBHandler
 
 # initialize singletons
-LLMHandler(llm=ChatGroq(model="llama-3.1-70b-versatile"))
+LLMHandler(llm=ChatGroq(model="llama-3.1-70b-versatile", temperature=0))
 vector_handler = VectorDBHandler(
     collection_name="qa_chroma",
     embedding_model=GoogleGenerativeAIEmbeddings(model="models/embedding-001"),

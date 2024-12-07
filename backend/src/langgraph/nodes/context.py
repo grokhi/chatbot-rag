@@ -77,14 +77,18 @@ question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
 
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 # rag_chain = rag_chain | retrieval_grader
-
 ### Statefully manage chat history ###
-store = {}
+from collections import defaultdict
+
+from langchain.schema import Document
+from langchain_community.tools.tavily_search import TavilySearchResults
+
+store = defaultdict(ChatMessageHistory)
 
 
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
-    if session_id not in store:
-        store[session_id] = ChatMessageHistory()
+    # if session_id not in store:
+    #     store[session_id] = ChatMessageHistory()
     return store[session_id]
 
 
@@ -96,14 +100,58 @@ conversational_rag_chain = RunnableWithMessageHistory(
     output_messages_key="answer",
 )
 
+# %%
+web_search_tool = TavilySearchResults()
+system = (
+    "You are a grader assessing relevance of a retrieved document to a user question."
+    "If the document contains keyword(s) or semantic meaning related to the question, grade it as relevant."
+    "Give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the question."
+    # "Dont forget to consider chat history when answering the question."
+)
+
+grade_prompt = ChatPromptTemplate.from_messages(
+    [
+        ("system", system),
+        # MessagesPlaceholder("chat_history"),
+        ("human", "Document: {document} Question: {question}"),
+    ]
+)
+
+
+from backend.src.langgraph.nodes.query_transform import question_rewriter
+
 
 def contextualize(state):
     q1 = "Какой город является столицей Туркмении?"
     q2 = "Что насчет Удмуртской республики?"
+    q1 = "What is the weather in sf?"
+    q2 = "What about new york?"
 
-    documents = history_aware_retriever.invoke({"input": q1})
+    #################### Round 1
+    documents = history_aware_retriever.invoke(
+        {"input": q1, "chat_history": store["abc123"].messages}
+    )
     # rm duplicates
     documents = list({frozenset(d.metadata.items()): d for d in documents}.values())
+
+    filtered_docs = []
+    web_search = False
+
+    for doc in documents:
+        result = retrieval_grader.invoke({"question": q2, "document": doc.page_content})
+        if result.binary_score == "yes":
+            filtered_docs.append(doc)
+
+    if len(filtered_docs) == 0:
+        web_search = True
+
+    if web_search:
+        web_search_tool = TavilySearchResults()
+        context_question = question_rewriter.invoke(
+            {"question": q1, "chat_history": store["abc123"].messages}
+        )
+        docs = web_search_tool.invoke(context_question)
+        documents = [Document(d["content"]) for d in docs]
 
     # print(f1)
     # f11 = question_answer_chain.invoke(
@@ -121,15 +169,17 @@ def contextualize(state):
     )
     print(f111)
 
+    #################### Round 2
     print("------------------------------------")
 
     documents = history_aware_retriever.invoke(
         {"input": q2, "chat_history": store["abc123"].messages}
     )
-    # print(documents)
+    # rm duplicates
+    documents = list({frozenset(d.metadata.items()): d for d in documents}.values())
 
     filtered_docs = []
-    web_search = "No"
+    web_search = False
 
     for doc in documents:
         result = retrieval_grader.invoke({"question": q2, "document": doc.page_content})
@@ -137,7 +187,16 @@ def contextualize(state):
             filtered_docs.append(doc)
 
     if len(filtered_docs) == 0:
-        web_search = "Yes"
+        web_search = True
+
+    if web_search:
+        web_search_tool = TavilySearchResults()
+        context_question = question_rewriter.invoke(
+            {"question": q2, "chat_history": store["abc123"].messages}
+        )
+        docs = web_search_tool.invoke(context_question)
+        documents = [Document(d["content"]) for d in docs]
+
     """План
      - Теперь грейдер получает документы с памятью об истории чата.
      - Необходимо просто записать в стейт занчение web search и попросить начать поиск в интернете если релевантных доков не найдено
