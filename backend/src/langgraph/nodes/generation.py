@@ -1,74 +1,54 @@
-# from __future__ import annotations
-
-# from typing import TYPE_CHECKING
-
-from langchain_core.messages import AIMessage
+from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_groq import ChatGroq
+from langgraph.graph import MessagesState
 
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
 from backend.src.langgraph.state import AgentState
 
-# if TYPE_CHECKING:
-#     from backend.src.langgraph.setup import AgentState
 
-prompt = ChatPromptTemplate(
-    [
-        (
-            "system",
-            (
-                "You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. "
-                "If you don't know the answer, just say that you don't know. Do not mention that you have used the provided context. "
-                "Use three sentences maximum and keep the answer concise.\n"
-                "Question: {question}"
-                "\nContext: {context} "
-                "\nAnswer:"
-            ),
-        )
-    ]
-)
+def generate(state: MessagesState):
+    """
+    Generate answer
 
-llm = LLMHandler().llm
-rag_chain = prompt | llm | StrOutputParser()
+    Args:
+        state (messages): The current state
 
-from langchain_community.chat_message_histories import ChatMessageHistory
-from langchain_core.chat_history import BaseChatMessageHistory
-from langchain_core.runnables.history import RunnableWithMessageHistory
-
-store = {}
-
-
-def get_session_history(session_id: str) -> BaseChatMessageHistory:
-    if session_id not in store:
-        store[session_id] = ChatMessageHistory()
-    return store[session_id]
-
-
-conversational_rag_chain = RunnableWithMessageHistory(
-    rag_chain,
-    get_session_history,
-    input_messages_key="question",
-    history_messages_key="chat_history",
-    output_messages_key="answer",
-)
-
-
-def generate(state: AgentState):
-    question = state["question"]
+    Returns:
+         dict: The updated state with re-phrased question
+    """
+    print("---GENERATE---")
     messages = state["messages"]
-    documents = state["documents"]
-    logger.debug(f"GENERATE", extra={"question": question})
+    question = [m for m in messages if isinstance(m, HumanMessage)][-1].content
+    last_message = messages[-1]
 
-    res = conversational_rag_chain.invoke(
-        {"question": question, "context": documents},
-        config={"configurable": {"session_id": "abc123"}},  # constructs a key "abc123" in `store`.
+    docs = last_message.content
+
+    prompt = ChatPromptTemplate(
+        [
+            (
+                "system",
+                (
+                    "You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. "
+                    "If you don't know the answer, just say that you don't know. Do not mention that you have used the provided context. "
+                    "Use three sentences maximum and keep the answer concise.\n"
+                    "Question: {question}"
+                    "\nContext: {context} "
+                    "\nAnswer:"
+                ),
+            )
+        ]
     )
-    print(res)
-    generation = rag_chain.invoke({"context": documents, "question": question})
-    return {
-        "documents": documents,
-        "question": question,
-        "answer": generation,
-        # "messages": [AIMessage(content=generation)],
-    }
+
+    # LLM
+    # llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, streaming=True)
+    llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
+
+    # Chain
+    rag_chain = prompt | llm | StrOutputParser()
+
+    # Run
+    response = rag_chain.invoke({"context": docs, "question": question})
+    return {"messages": [AIMessage(response)]}
