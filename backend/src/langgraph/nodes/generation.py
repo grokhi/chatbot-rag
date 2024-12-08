@@ -5,6 +5,7 @@ from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
 
 from backend.src.core.logger import logger
+from backend.src.handlers import llm_handler
 from backend.src.handlers.llm import LLMHandler
 from backend.src.langgraph.state import AgentState
 
@@ -44,7 +45,8 @@ def generate(state: MessagesState):
 
     # LLM
     # llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, streaming=True)
-    llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
+    # llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
+    llm = llm_handler.llm
 
     # Chain
     rag_chain = prompt | llm | StrOutputParser()

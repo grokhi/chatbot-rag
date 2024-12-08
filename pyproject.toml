@@ -25,6 +25,7 @@ langchain-google-genai = "^2.0.6"
 langchain-chroma = "^0.1.4"
 langchain-community = "^0.3.8"
 duckduckgo-search = "^6.3.7"
+langchain-ollama = "^0.2.1"
 
 
 [tool.poetry.group.dev.dependencies]

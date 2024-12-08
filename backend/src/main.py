@@ -28,10 +28,7 @@ class QueryRequest(BaseModel):
 class QueryResponse(BaseModel):
     question: str
     answer: str
-    messages: list
-
-    class Config:
-        arbitrary_types_allowed = True
+    # messages: list
 
 
 @app.post("/query", response_model=QueryResponse)
@@ -61,7 +58,6 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
         return {
             "question": request.query,
             "answer": response["messages"][-1].content,
-            "messages": response["messages"],
         }
 
     except Exception as e:

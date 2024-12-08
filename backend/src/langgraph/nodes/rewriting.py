@@ -5,6 +5,7 @@ from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
 
 from backend.src.core.logger import logger
+from backend.src.handlers import llm_handler
 from backend.src.handlers.llm import LLMHandler
 from backend.src.langgraph.state import AgentState
 
@@ -39,7 +40,8 @@ def rewrite(state: MessagesState):
 
     # Grader
     # model = ChatOpenAI(temperature=0, model="gpt-4-0125-preview", streaming=True)
-    model = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
+    # model = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
+    llm = llm_handler.llm
 
-    response = model.invoke(msg)
+    response = llm.invoke(msg)
     return {"messages": [response]}
