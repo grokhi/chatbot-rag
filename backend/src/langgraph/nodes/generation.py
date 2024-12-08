@@ -7,7 +7,6 @@ from langgraph.graph import MessagesState
 from backend.src.core.logger import logger
 from backend.src.handlers import llm_handler
 from backend.src.handlers.llm import LLMHandler
-from backend.src.langgraph.state import AgentState
 
 
 def generate(state: MessagesState):
@@ -48,9 +47,4 @@ def generate(state: MessagesState):
     # llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
     llm = llm_handler.llm
 
-    # Chain
-    rag_chain = prompt | llm | StrOutputParser()
-
-    # Run
-    response = rag_chain.invoke({"context": docs, "question": question})
-    return {"messages": [AIMessage(response)]}
+    return {"messages": [llm.invoke(prompt.format(question=question, context=docs))]}

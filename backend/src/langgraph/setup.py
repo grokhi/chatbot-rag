@@ -3,6 +3,7 @@
 import operator
 from typing import Annotated, Any, Dict, List, Literal, TypedDict, Union
 
+import langchain
 from langchain.chains.llm import LLMChain
 from langchain_core.agents import AgentAction, AgentFinish
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
@@ -15,6 +16,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
 
+from backend.src.core.config import settings
 from backend.src.core.logger import logger
 from backend.src.handlers.llm import LLMHandler
 from backend.src.langgraph.edges.grading import grade_documents
@@ -26,9 +28,11 @@ from backend.src.langgraph.nodes import (
     web_search,
 )
 
-# from backend.src.langgraph.state import AgentState
-
 memory = MemorySaver()
+
+
+if settings.LANGCHAIN_DEBUG:
+    langchain.debug = True
 
 
 class LangGraphSetup:

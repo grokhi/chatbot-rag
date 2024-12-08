@@ -1,5 +1,3 @@
-# from __future__ import annotations
-
 from langchain.tools.retriever import create_retriever_tool
 from langchain_core.tools import tool
 

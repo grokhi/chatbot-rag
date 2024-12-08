@@ -2796,13 +2796,13 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "ollama"
-version = "0.4.3"
+version = "0.4.2"
 description = "The official Python client for Ollama."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "ollama-0.4.3-py3-none-any.whl", hash = "sha256:4c06c6b4cd7df346a382e157f696ba53eb9ee2cc94db85a4f7d530b9acb9dba2"},
-    {file = "ollama-0.4.3.tar.gz", hash = "sha256:7b294051b2144be5d6ad4f0d033880f66b95a9377f4b40d8512e2974ca4001ef"},
+    {file = "ollama-0.4.2-py3-none-any.whl", hash = "sha256:3059fe1fe34e24c782e9e8eebf69bcd2d7037007cb4b3cfda4b32bfee36ae2ef"},
+    {file = "ollama-0.4.2.tar.gz", hash = "sha256:5dffc826737a1d121c9ae371439cace20ab02ec4b0840fd55c56efa9a3fb3646"},
 ]
 
 [package.dependencies]
@@ -5419,4 +5419,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e545795d94de05a7cd09978a06fc8924054fb8cdf38015278781d90c83e2bf06"
+content-hash = "186c443b0cfb54f3a59d423c42058e8249d6294a985ddcc7ae8c1bcd19b2a0cb"

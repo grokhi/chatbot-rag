@@ -4,8 +4,8 @@ from langchain_groq import ChatGroq
 from backend.src.handlers.llm import LLMHandler
 from backend.src.handlers.vector_db import VectorDBHandler
 
-# initialize singletons
-llm_handler = LLMHandler(model="groq")
+# initialize handlers
+llm_handler = LLMHandler(model="local")
 vector_handler = VectorDBHandler(
     collection_name="qa_chroma",
     embedding_model=GoogleGenerativeAIEmbeddings(model="models/embedding-001"),
