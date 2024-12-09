@@ -3,10 +3,9 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
-
-from backend.src.core.logger import logger
-from backend.src.handlers import llm_handler
-from backend.src.handlers.llm import LLMHandler
+from src.core.logger import logger
+from src.handlers import llm_handler
+from src.handlers.llm import LLMHandler
 
 
 def rewrite(state: MessagesState):

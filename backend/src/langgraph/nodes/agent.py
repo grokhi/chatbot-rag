@@ -1,8 +1,7 @@
 from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
-
-from backend.src.handlers import llm_handler
-from backend.src.langgraph.nodes.retrieving import retriever_tool
+from src.handlers import llm_handler
+from src.langgraph.nodes.retrieving import retriever_tool
 
 
 def agent(state: MessagesState):

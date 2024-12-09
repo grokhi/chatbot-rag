@@ -8,8 +8,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_community.vectorstores.utils import filter_complex_metadata
 from langchain_core.embeddings import Embeddings
-
-from backend.src.core.config import settings
+from src.core.config import settings
 
 
 class VectorDBHandler:

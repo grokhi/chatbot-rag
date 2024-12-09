@@ -1,8 +1,7 @@
 from langchain.tools.retriever import create_retriever_tool
 from langchain_core.tools import tool
-
-from backend.src.core.logger import logger
-from backend.src.handlers import vectorstore
+from src.core.logger import logger
+from src.handlers import vectorstore
 
 retriever = vectorstore.as_retriever()
 

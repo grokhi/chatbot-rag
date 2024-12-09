@@ -5,15 +5,18 @@ from langchain_core.callbacks import CallbackManager, StreamingStdOutCallbackHan
 from langchain_core.language_models import BaseChatModel
 from langchain_groq import ChatGroq
 from langchain_ollama import ChatOllama
-
-from backend.src.core.config import settings
-from backend.src.core.logger import logger
+from src.core.config import settings
+from src.core.logger import logger
 
 
 class LLMHandler:
 
-    def __init__(self, model: Literal["local", "openai", "groq"] = "groq"):
-        if model == "groq":
+    def __init__(self, model: str = "llama3.1:8b"):
+        if "groq" in model:
             self.llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
-        elif model == "local":
-            self.llm = ChatOllama(model="llama3.1:8b", temperature=0, max_tokens=1024)
+        elif "llama" in model:
+            self.llm = ChatOllama(model=model, temperature=0, max_tokens=1024)
+        else:
+            raise ValueError(
+                f"Provided {model!r} was not found. Please specify correct llm model from 'llama' or 'openai' model families."
+            )

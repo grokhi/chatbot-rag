@@ -6,10 +6,9 @@ from fastapi.responses import JSONResponse
 from langchain.schema import Document
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
-
-from backend.src.core.config import settings
-from backend.src.core.logger import logger
-from backend.src.langgraph.setup import create_graph
+from src.core.config import settings
+from src.core.logger import logger
+from src.langgraph.setup import create_graph
 
 app = FastAPI(
     title="RAG Chatbot API",

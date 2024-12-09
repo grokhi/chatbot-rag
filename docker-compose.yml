@@ -6,12 +6,13 @@ services:
       dockerfile: ./backend/Dockerfile
     volumes:
       - ./backend:/app
+      - ./data:/app/data
     depends_on:
       - ollama
     ports:
-      - "8000:8000" # Adjust the port according to your backend configuration
-    environment:
-      - PYTHONPATH=/backend # Set the PYTHONPATH to the /app directory
+      - "8000:8000"
+    env_file:
+      - .env
 
   ollama:
     image: ollama/ollama
@@ -26,12 +27,14 @@ services:
               capabilities: [gpu]
     volumes:
       - ollama:/root/.ollama
+      - ./entrypoint.sh:/entrypoint.sh
     ports:
       - "11434:11434"
-    # command: sh -c "ollama pull llama3.1:8b && ollama run llama3.1:8b"
-    # entrypoint: ["ollama", "pull", "llama3.1:8b"]
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
+    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
+    env_file:
+      - .env
 
 volumes:
   ollama:

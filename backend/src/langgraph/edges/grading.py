@@ -5,8 +5,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
 from pydantic import BaseModel, Field
-
-from backend.src.handlers.llm import LLMHandler
+from src.handlers.llm import LLMHandler
 
 
 def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:

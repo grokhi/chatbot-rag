@@ -15,18 +15,11 @@ from langchain_core.prompts import (
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
-
-from backend.src.core.config import settings
-from backend.src.core.logger import logger
-from backend.src.handlers.llm import LLMHandler
-from backend.src.langgraph.edges.grading import grade_documents
-from backend.src.langgraph.nodes import (
-    agent,
-    generate,
-    retriever_tool,
-    rewrite,
-    web_search,
-)
+from src.core.config import settings
+from src.core.logger import logger
+from src.handlers.llm import LLMHandler
+from src.langgraph.edges.grading import grade_documents
+from src.langgraph.nodes import agent, generate, retriever_tool, rewrite, web_search
 
 memory = MemorySaver()
 

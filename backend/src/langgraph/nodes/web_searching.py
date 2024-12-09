@@ -6,10 +6,9 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.runnables import RunnableConfig, chain
 from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
-
-from backend.src.core.logger import logger
-from backend.src.handlers import llm_handler
-from backend.src.handlers.llm import LLMHandler
+from src.core.logger import logger
+from src.handlers import llm_handler
+from src.handlers.llm import LLMHandler
 
 
 def web_search(state: MessagesState):

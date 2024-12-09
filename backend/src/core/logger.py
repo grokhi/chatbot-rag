@@ -1,8 +1,7 @@
 import sys
 
 from loguru import logger as base_logger
-
-from .config import settings
+from src.core.config import settings
 
 
 def setup_logging():
