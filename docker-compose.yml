@@ -1,5 +1,18 @@
 version: "3.8"
 services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - ollama
+    ports:
+      - "8000:8000" # Adjust the port according to your backend configuration
+    environment:
+      - PYTHONPATH=/backend # Set the PYTHONPATH to the /app directory
+
   ollama:
     image: ollama/ollama
     runtime: nvidia
