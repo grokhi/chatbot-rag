@@ -1,30 +1,19 @@
-from typing import Any, Dict
+from typing import Any, Dict, Literal
 
+from langchain_community.llms.gpt4all import GPT4All
+from langchain_core.callbacks import CallbackManager, StreamingStdOutCallbackHandler
 from langchain_core.language_models import BaseChatModel
+from langchain_groq import ChatGroq
+from langchain_ollama import ChatOllama
 
 from backend.src.core.config import settings
 from backend.src.core.logger import logger
 
 
 class LLMHandler:
-    """
-    Singleton class to manage a single instance of the LLM (ChatOpenAI).
-    """
 
-    _instance = None
-
-    def __new__(cls, llm: BaseChatModel = None):
-        if not cls._instance:
-            cls._instance = super().__new__(cls)
-            cls._instance._initialize(llm)
-        return cls._instance
-
-    def _initialize(self, llm: BaseChatModel):
-        """
-        Initialize the LLMHandler instance. This runs only once.
-        """
-        self._llm = llm
-
-    @property
-    def llm(self):
-        return self._llm
+    def __init__(self, model: Literal["local", "openai", "groq"] = "groq"):
+        if model == "groq":
+            self.llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
+        elif model == "local":
+            self.llm = ChatOllama(model="llama3.1:8b", temperature=0, max_tokens=1024)

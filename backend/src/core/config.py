@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     LANGCHAIN_TRACING_V2: Optional[str] = None
     TAVILY_API_KEY: Optional[str] = None
 
+    LANGCHAIN_DEBUG: bool = True  # "logs/app.log"
+
     # Vector Database Settings
     VECTOR_DB_URL: str = "localhost"
     VECTOR_DB_PORT: int = 8080

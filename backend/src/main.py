@@ -23,17 +23,12 @@ graph = create_graph()
 # Pydantic models for request/response validation
 class QueryRequest(BaseModel):
     query: str = Field(default="What is the weather in sf?")
-    context: Optional[Dict[str, Any]] = {}
 
 
 class QueryResponse(BaseModel):
     question: str
-    generation: str
-    web_search: str
-    documents: List[Document]
-
-    class Config:
-        arbitrary_types_allowed = True
+    answer: str
+    # messages: list
 
 
 @app.post("/query", response_model=QueryResponse)
@@ -50,18 +45,20 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
     try:
         # Log incoming request
         logger.info(f"Received query: {request.query}")
-        augmented_prompt = {
-            "question": HumanMessage(content=request.query),
-            "messages": [HumanMessage(content=request.query)],
-        }
+
         config = {"configurable": {"thread_id": "1"}}
 
-        response = graph.invoke(augmented_prompt, config)
+        response = graph.invoke(
+            {
+                "messages": [HumanMessage(content=request.query)],
+            },
+            config,
+        )
 
-        for m in response["messages"]:
-            m.pretty_print()
-
-        return response
+        return {
+            "question": request.query,
+            "answer": response["messages"][-1].content,
+        }
 
     except Exception as e:
         logger.exception(f"Error processing query: {str(e)}")
