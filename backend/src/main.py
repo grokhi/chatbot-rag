@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from langchain.schema import Document
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
-from src.core.config import settings
+from src.core.config import config
 from src.core.logger import logger
 from src.langgraph.setup import create_graph
 

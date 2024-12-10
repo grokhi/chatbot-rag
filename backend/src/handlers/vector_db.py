@@ -8,7 +8,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_community.vectorstores.utils import filter_complex_metadata
 from langchain_core.embeddings import Embeddings
-from src.core.config import settings
+from src.core.config import config
 
 
 class VectorDBHandler:
@@ -26,11 +26,11 @@ class VectorDBHandler:
         self._force_reload = None
 
         self._vectorstore_path = os.path.join(
-            settings.DATA_DIR, self.VECTORSTORE_DIR, collection_name
+            config.DATA_DIR, self.VECTORSTORE_DIR, collection_name
         )
         os.makedirs(self._vectorstore_path, exist_ok=True)
 
-        ds_hash_dirpath = os.path.join(settings.DATA_DIR, self.DS_HASH_DIR)
+        ds_hash_dirpath = os.path.join(config.DATA_DIR, self.DS_HASH_DIR)
         os.makedirs(ds_hash_dirpath, exist_ok=True)
         self._ds_hash_path = os.path.join(ds_hash_dirpath, collection_name)
 

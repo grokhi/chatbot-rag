@@ -30,12 +30,7 @@ def query_chatbot(chat_history, user_message):
         response = requests.post(f"{API_BASE_URL}/query", json=payload)
         if response.status_code == 200:
             data = response.json()
-            bot_response = (
-                f"{data['generation']}\n\n"
-                f"**Web Search Info:** {data['web_search']}\n\n"
-                f"**Documents:**\n" + "\n".join([f"- {doc}" for doc in data.get("documents", [])])
-            )
-            chat_history.append({"role": "assistant", "content": bot_response})
+            chat_history.append({"role": "assistant", "content": data["answer"]})
         else:
             error_message = f"Error: {response.status_code}\n{response.text}"
             chat_history.append({"role": "assistant", "content": error_message})

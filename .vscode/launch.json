@@ -2,21 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "jinja": true,
-            "justMyCode": false,
-            "envFile": "${workspaceFolder}/.env",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}:${PYTHONPATH}",
-                "LOG_LEVEL": "DEBUG"
-                // "PYTHONASYNCIODEBUG": "1"
-            }
-        },
-        {
             "name": "Run Backend",
             "type": "python",
             "request": "launch",
@@ -52,6 +37,21 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}/frontend:${PYTHONPATH}",
                 "LOG_LEVEL": "DEBUG"
+            }
+        },
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "jinja": true,
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}:${PYTHONPATH}",
+                "LOG_LEVEL": "DEBUG"
+                // "PYTHONASYNCIODEBUG": "1"
             }
         }
     ],

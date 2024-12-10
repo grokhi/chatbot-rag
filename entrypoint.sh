@@ -8,8 +8,8 @@ pid=$!
 # Pause for Ollama to start.
 sleep 5
 
-echo "🔴 Retrieve LLAMA3 model..."
-ollama run ${LLM_MODEL}
+echo "🔴 Retrieve LLAMA3 model... \nPlease wait for the 🟢 mark while initializing."
+ollama run ${LLAMA_MODEL}
 echo "🟢 Done!"
 
 # Wait for Ollama process to finish.

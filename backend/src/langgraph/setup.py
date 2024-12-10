@@ -15,7 +15,7 @@ from langchain_core.prompts import (
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
-from src.core.config import settings
+from src.core.config import config
 from src.core.logger import logger
 from src.handlers.llm import LLMHandler
 from src.langgraph.edges.grading import grade_documents
@@ -24,7 +24,7 @@ from src.langgraph.nodes import agent, generate, retriever_tool, rewrite, web_se
 memory = MemorySaver()
 
 
-if settings.LANGCHAIN_DEBUG:
+if config.LANGCHAIN_DEBUG:
     langchain.debug = True
 
 

@@ -1,7 +1,7 @@
 import sys
 
 from loguru import logger as base_logger
-from src.core.config import settings
+from src.core.config import config
 
 
 def setup_logging():
@@ -13,7 +13,7 @@ def setup_logging():
             "<level>{message}</level> "
             "<dim>{file}:{line}</dim>"
         ),
-        level=settings.LOG_LEVEL,
+        level=config.LOG_LEVEL,
     )
     # if settings.LOG_FILE is not None:
     #     base_logger.add(
