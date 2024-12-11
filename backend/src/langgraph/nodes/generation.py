@@ -47,5 +47,6 @@ def generate(state: MessagesState):
     # llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, streaming=True)
     # llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
     llm = llm_handler.llm
+    response = llm.invoke(prompt.format(question=question, context=docs))
 
-    return {"messages": [llm.invoke(prompt.format(question=question, context=docs))]}
+    return {"messages": [response]}

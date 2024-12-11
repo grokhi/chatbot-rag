@@ -9,7 +9,7 @@ from src.core.logger import logger
 from src.handlers.llm import LLMHandler
 
 
-def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:
+def grade_documents(state: MessagesState) -> Literal["generate", "web_search"]:
     """
     Determines whether the retrieved documents are relevant to the question.
 
@@ -20,8 +20,7 @@ def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:
         str: A decision for whether the documents are relevant or not
     """
 
-    print("---CHECK RELEVANCE---")
-    logger.debug()
+    logger.debug("CHECK RELEVANCE")
 
     # Data model
     class grade(BaseModel):
@@ -66,4 +65,4 @@ def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:
 
     else:
         logger.debug("DECISION: DOCS NOT RELEVANT")
-        return "rewrite"
+        return "web_search"

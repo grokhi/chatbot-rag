@@ -43,20 +43,21 @@ class LangGraphSetup:
 
         workflow.add_node("agent", agent)
         workflow.add_node("retrieve", ToolNode([retriever_tool]))
-        workflow.add_node("rewrite", rewrite)
+        # workflow.add_node("rewrite", rewrite)
         workflow.add_node("generate", generate)
         workflow.add_node("web_search", web_search)
 
         workflow.add_edge(START, "agent")
+        workflow.add_edge("agent", "retrieve")
 
-        workflow.add_conditional_edges(
-            "agent",
-            tools_condition,
-            {
-                "tools": "retrieve",
-                END: "web_search",
-            },
-        )
+        # workflow.add_conditional_edges(
+        #     "agent",
+        #     tools_condition,
+        #     {
+        #         "tools": "retrieve",
+        #         END: "web_search",
+        #     },
+        # )
 
         workflow.add_conditional_edges(
             "retrieve",
@@ -64,7 +65,7 @@ class LangGraphSetup:
         )
         workflow.add_edge("web_search", END)
         workflow.add_edge("generate", END)
-        workflow.add_edge("rewrite", "agent")
+        # workflow.add_edge("rewrite", "agent")
 
         return workflow.compile(checkpointer=memory)
 

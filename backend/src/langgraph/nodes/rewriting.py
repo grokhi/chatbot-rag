@@ -33,7 +33,7 @@ def rewrite(state: MessagesState):
                 \n ------- \n
                 {question} 
                 \n ------- \n
-                Formulate an improved question: """,
+                Formulate an improved question. Do not mention your reasoning. Be lapidary as possible.""",
         )
     ]
 
