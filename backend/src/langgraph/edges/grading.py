@@ -5,6 +5,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
 from pydantic import BaseModel, Field
+from src.core.logger import logger
 from src.handlers.llm import LLMHandler
 
 
@@ -20,6 +21,7 @@ def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:
     """
 
     print("---CHECK RELEVANCE---")
+    logger.debug()
 
     # Data model
     class grade(BaseModel):
@@ -59,10 +61,9 @@ def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:
     score = scored_result.binary_score
 
     if score == "yes":
-        print("---DECISION: DOCS RELEVANT---")
+        logger.debug("DECISION: DOCS RELEVANT")
         return "generate"
 
     else:
-        print("---DECISION: DOCS NOT RELEVANT---")
-        print(score)
+        logger.debug("DECISION: DOCS NOT RELEVANT")
         return "rewrite"

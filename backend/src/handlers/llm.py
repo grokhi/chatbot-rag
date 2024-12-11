@@ -17,7 +17,14 @@ class LLMHandler:
 
         if run_local:
             self.llm = ChatOllama(
-                model=config.LLAMA_MODEL, temperature=0, base_url=config.LOCAL_LLM_HOST
+                model=config.LLAMA_MODEL,
+                temperature=0,
+                streaming=True,
+                base_url=config.LOCAL_LLM_HOST,
             )
         else:
-            self.llm = ChatOllama(model=config.LLAMA_MODEL, temperature=0)
+            self.llm = ChatGroq(
+                model="llama-3.1-70b-versatile",
+                temperature=0,
+                streaming=True,
+            )

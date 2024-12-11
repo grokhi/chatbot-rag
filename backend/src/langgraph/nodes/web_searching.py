@@ -24,7 +24,7 @@ def web_search(state: MessagesState):
     messages = state["messages"]
     question = [m for m in messages if isinstance(m, HumanMessage)][-1].content
 
-    print("---WEB SEARCH---")
+    logger.debug("WEB SEARCH")
 
     # model = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
     llm = llm_handler.llm

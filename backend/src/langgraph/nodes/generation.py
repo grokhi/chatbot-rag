@@ -18,7 +18,9 @@ def generate(state: MessagesState):
     Returns:
          dict: The updated state with re-phrased question
     """
-    print("---GENERATE---")
+
+    logger.debug("GENERATE")
+
     messages = state["messages"]
     question = [m for m in messages if isinstance(m, HumanMessage)][-1].content
     last_message = messages[-1]

@@ -1,5 +1,6 @@
 from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
+from src.core.logger import logger
 from src.handlers import llm_handler
 from src.langgraph.nodes.retrieving import retriever_tool
 
@@ -15,7 +16,9 @@ def agent(state: MessagesState):
     Returns:
         dict: The updated state with the agent response appended to messages
     """
-    print("---CALL AGENT---")
+
+    logger.debug("CALL AGENT")
+
     messages = state["messages"]
     # model = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo")
     # model = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
