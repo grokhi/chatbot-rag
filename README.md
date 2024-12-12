@@ -15,6 +15,7 @@ This project implements a chatbot using a Retrieval-Augmented Generation (RAG) f
 - **Web Search Integration:** Query real-time web-based data using the Tavily search engine.
 - **Context Memory:** Handle follow-up questions by maintaining conversational context.
 - **Local LLM Support:** Use a local large language model (LLAMA) for response generation.
+- **Gradio Session Versatility**: Open multiple Gradio chatbots in different tabs to maintain distinct conversation threads with memory.
 
 ## How to Run
 
@@ -61,6 +62,13 @@ Here are some examples to test the chatbot's retrieval and context capabilities:
 ```text
 > What is the weather in SF?  # Checks web search functionality
 > What about NY?              # Tests context memory for follow-up questions
+```
+
+### Mixed query
+
+```text
+> Какая столица у Туркмении?  # Столицей Туркмении является Ашхабад
+> What about NY?              # The capital of New York State is Albany.
 ```
 
 ## Notes and Known Limitations

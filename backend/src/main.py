@@ -20,6 +20,7 @@ graph = create_graph()
 # Pydantic models for request/response validation
 class QueryRequest(BaseModel):
     query: str = Field(default="What is the weather in sf?")
+    # session_id: str
 
 
 class QueryResponse(BaseModel):
@@ -29,9 +30,7 @@ class QueryResponse(BaseModel):
 
 
 @app.post("/query", response_model=QueryResponse)
-async def process_query(
-    request: QueryRequest, response: Response, session: str = Cookie(None)
-) -> Dict[str, Any]:
+async def process_query(request: QueryRequest, session: str = Cookie(None)) -> Dict[str, Any]:
     """
     Process chat queries using RAG approach
 
@@ -43,15 +42,6 @@ async def process_query(
     """
     try:
         logger.info(f"Received query: {request.query}")
-
-        if session is None:
-            session = str(uuid.uuid4())
-            response.set_cookie(
-                key="session",
-                value=session,
-                httponly=True,
-            )
-
         config = {"configurable": {"thread_id": session}}
         res = graph.invoke(
             {
