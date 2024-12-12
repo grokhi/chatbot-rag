@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     LOCAL_LLM_PORT: int = 11434
 
     LLAMA_MODEL: str = "llama3.1:8b"
-    OPENAI_MODEL: str = ""
+    OPENAI_MODEL: str = "gpt-3.5-turbo"
 
     OPENAI_API_KEY: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None

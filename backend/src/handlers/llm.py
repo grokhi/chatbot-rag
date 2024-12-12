@@ -5,6 +5,7 @@ from langchain_core.callbacks import CallbackManager, StreamingStdOutCallbackHan
 from langchain_core.language_models import BaseChatModel
 from langchain_groq import ChatGroq
 from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from src.core.config import config
 from src.core.logger import logger
 
@@ -12,8 +13,6 @@ from src.core.logger import logger
 class LLMHandler:
 
     def __init__(self, run_local: bool = True):
-        # if "groq" in run_local:
-        #     self.llm = ChatGroq(model="llama-3.1-70b-versatile", temperature=0, streaming=True)
 
         if run_local:
             self.llm = ChatOllama(
@@ -23,8 +22,8 @@ class LLMHandler:
                 base_url=config.LOCAL_LLM_HOST,
             )
         else:
-            self.llm = ChatGroq(
-                model="llama-3.1-70b-versatile",
+            self.llm = ChatOpenAI(
+                model=config.OPENAI_MODEL,
                 temperature=0,
                 streaming=True,
             )

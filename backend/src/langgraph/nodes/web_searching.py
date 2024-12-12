@@ -32,14 +32,19 @@ def web_search(state: MessagesState):
     llm = llm_handler.llm
     llm_with_tools = llm.bind_tools([web_search_tool])
 
+    try:
+        msg = [m for m in messages if isinstance(m, AIMessage)][-1]
+        question = msg.tool_calls[0]["args"]["query"]
+    except:
+        msg = [m for m in messages if isinstance(m, HumanMessage)][-1]
+        question = msg.content
+
     @chain
     def tool_chain(question: str, config: RunnableConfig):
         ai_msg = llm_with_tools.invoke(question, config=config)
         tool_msgs = web_search_tool.batch(ai_msg.tool_calls, config=config)
+        # return llm_with_tools.invoke([ai_msg, *tool_msgs], config=config)
         return llm_with_tools.invoke([*messages, ai_msg, *tool_msgs], config=config)
 
-    return {
-        "messages": tool_chain.invoke(
-            [m for m in messages if isinstance(m, HumanMessage)][-1].content
-        )
-    }
+    # [m for m in messages if isinstance(m, HumanMessage)][-1].content
+    return {"messages": tool_chain.invoke(question)}

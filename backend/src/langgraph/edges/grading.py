@@ -51,9 +51,18 @@ def grade_documents(state: MessagesState) -> Literal["generate", "web_search"]:
 
     messages = state["messages"]
     last_message = messages[-1]
-
-    question = [m for m in messages if isinstance(m, HumanMessage)][-1].content
     docs = last_message.content
+
+    if docs == "irrelevant":
+        logger.debug("DECISION: DOCS NOT RELEVANT")
+        return "web_search"
+
+    try:
+        msg = [m for m in messages if isinstance(m, AIMessage)][-1]
+        question = msg.tool_calls[0]["args"]["query"]
+    except:
+        msg = [m for m in messages if isinstance(m, HumanMessage)][-1]
+        question = msg.content
 
     scored_result = chain.invoke({"question": question, "context": docs})
 
