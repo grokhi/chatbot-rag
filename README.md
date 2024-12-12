@@ -4,6 +4,11 @@
 
 This project implements a chatbot using a Retrieval-Augmented Generation (RAG) framework powered by LangGraph. The chatbot can retrieve information from a knowledge graph based on the [RuBQ 2.0 dataset](https://github.com/vladislavneon/RuBQ) and perform web-based queries.
 
+<div align="center"> 
+   <img src="graph.png" alt="Graph"> 
+</div>
+
+
 ## Features
 
 - **RUBQ Knowledge Graph Retrieval:** Answer questions based on the RuBQ dataset.
