@@ -16,3 +16,5 @@ frontend/__pycache__/
 data/*
 !data/datasets/ 
 !data/datasets/**
+
+state_db
