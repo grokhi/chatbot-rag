@@ -17,7 +17,7 @@ def agent(state: MessagesState):
         dict: The updated state with the agent response appended to messages
     """
 
-    logger.debug("CALL AGENT")
+    logger.info("CALL AGENT")
 
     messages = state["messages"]
     # model = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo")

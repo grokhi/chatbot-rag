@@ -19,7 +19,7 @@ def generate(state: MessagesState):
          dict: The updated state with re-phrased question
     """
 
-    logger.debug("GENERATE")
+    logger.info("GENERATE")
 
     messages = state["messages"]
     question = [m for m in messages if isinstance(m, HumanMessage)][-1].content

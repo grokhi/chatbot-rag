@@ -20,7 +20,7 @@ def grade_documents(state: MessagesState) -> Literal["generate", "web_search"]:
         str: A decision for whether the documents are relevant or not
     """
 
-    logger.debug("CHECK RELEVANCE")
+    logger.info("CHECK RELEVANCE")
 
     # Data model
     class grade(BaseModel):
@@ -54,7 +54,7 @@ def grade_documents(state: MessagesState) -> Literal["generate", "web_search"]:
     docs = last_message.content
 
     if docs == "irrelevant":
-        logger.debug("DECISION: DOCS NOT RELEVANT")
+        logger.info("DECISION: DOCS NOT RELEVANT")
         return "web_search"
 
     try:
@@ -69,9 +69,9 @@ def grade_documents(state: MessagesState) -> Literal["generate", "web_search"]:
     score = scored_result.binary_score
 
     if score == "yes":
-        logger.debug("DECISION: DOCS RELEVANT")
+        logger.info("DECISION: DOCS RELEVANT")
         return "generate"
 
     else:
-        logger.debug("DECISION: DOCS NOT RELEVANT")
+        logger.info("DECISION: DOCS NOT RELEVANT")
         return "web_search"

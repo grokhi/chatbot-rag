@@ -19,7 +19,7 @@ def rewrite(state: MessagesState):
         dict: The updated state with re-phrased question
     """
 
-    logger.debug("TRANSFORM QUERY")
+    logger.info("TRANSFORM QUERY")
 
     messages = state["messages"]
     # question = messages[0].content

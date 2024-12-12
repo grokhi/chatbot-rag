@@ -27,7 +27,7 @@ def web_search(state: MessagesState):
     """
     messages = state["messages"]
 
-    logger.debug("WEB SEARCH")
+    logger.info("WEB SEARCH")
 
     llm = llm_handler.llm
     llm_with_tools = llm.bind_tools([web_search_tool])
