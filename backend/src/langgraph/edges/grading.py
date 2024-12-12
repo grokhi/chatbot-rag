@@ -5,10 +5,11 @@ from langchain_core.prompts import PromptTemplate
 from langchain_groq import ChatGroq
 from langgraph.graph import MessagesState
 from pydantic import BaseModel, Field
+from src.core.logger import logger
 from src.handlers.llm import LLMHandler
 
 
-def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:
+def grade_documents(state: MessagesState) -> Literal["generate", "web_search"]:
     """
     Determines whether the retrieved documents are relevant to the question.
 
@@ -19,7 +20,7 @@ def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:
         str: A decision for whether the documents are relevant or not
     """
 
-    print("---CHECK RELEVANCE---")
+    logger.info("CHECK RELEVANCE")
 
     # Data model
     class grade(BaseModel):
@@ -50,19 +51,27 @@ def grade_documents(state: MessagesState) -> Literal["generate", "rewrite"]:
 
     messages = state["messages"]
     last_message = messages[-1]
-
-    question = [m for m in messages if isinstance(m, HumanMessage)][-1].content
     docs = last_message.content
+
+    if docs == "irrelevant":
+        logger.info("DECISION: DOCS NOT RELEVANT")
+        return "web_search"
+
+    try:
+        msg = [m for m in messages if isinstance(m, AIMessage)][-1]
+        question = msg.tool_calls[0]["args"]["query"]
+    except:
+        msg = [m for m in messages if isinstance(m, HumanMessage)][-1]
+        question = msg.content
 
     scored_result = chain.invoke({"question": question, "context": docs})
 
     score = scored_result.binary_score
 
     if score == "yes":
-        print("---DECISION: DOCS RELEVANT---")
+        logger.info("DECISION: DOCS RELEVANT")
         return "generate"
 
     else:
-        print("---DECISION: DOCS NOT RELEVANT---")
-        print(score)
-        return "rewrite"
+        logger.info("DECISION: DOCS NOT RELEVANT")
+        return "web_search"

@@ -1,9 +1,7 @@
-import json
+import uuid
 from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import JSONResponse
-from langchain.schema import Document
+from fastapi import Cookie, FastAPI, HTTPException, Response
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from pydantic import BaseModel, Field
 from src.core.config import config
@@ -31,7 +29,9 @@ class QueryResponse(BaseModel):
 
 
 @app.post("/query", response_model=QueryResponse)
-async def process_query(request: QueryRequest) -> Dict[str, Any]:
+async def process_query(
+    request: QueryRequest, response: Response, session: str = Cookie(None)
+) -> Dict[str, Any]:
     """
     Process chat queries using RAG approach
 
@@ -42,12 +42,18 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
         Dict containing answer, sources, and confidence score
     """
     try:
-        # Log incoming request
         logger.info(f"Received query: {request.query}")
 
-        config = {"configurable": {"thread_id": "1"}}
+        if session is None:
+            session = str(uuid.uuid4())
+            response.set_cookie(
+                key="session",
+                value=session,
+                httponly=True,
+            )
 
-        response = graph.invoke(
+        config = {"configurable": {"thread_id": session}}
+        res = graph.invoke(
             {
                 "messages": [HumanMessage(content=request.query)],
             },
@@ -56,7 +62,7 @@ async def process_query(request: QueryRequest) -> Dict[str, Any]:
 
         return {
             "question": request.query,
-            "answer": response["messages"][-1].content,
+            "answer": res["messages"][-1].content,
         }
 
     except Exception as e:

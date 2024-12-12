@@ -8,7 +8,8 @@ services:
       - ./backend:/app
       - ./data:/app/data
     depends_on:
-      - ollama
+      ollama:
+        condition: service_healthy
     ports:
       - "8000:8000"
     environment:
@@ -38,6 +39,11 @@ services:
     entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD", "sh", "-c", "ls /tmp/ollama_pulled"]
+      interval: 10s
+      timeout: 10s
+      retries: 100
 
   frontend:
     build:
@@ -48,7 +54,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "7860:7860"
+      - "80:7860"
     environment:
       - HOST=backend
       - PORT=8000

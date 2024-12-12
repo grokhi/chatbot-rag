@@ -148,18 +148,3 @@ class VectorDBHandler:
             with open(self._ds_hash_path, "r") as hash_file:
                 return hash_file.read()
         return None
-
-    # def query(self, query_text: str, top_k: int = 5) -> List[Document]:
-    #     """
-    #     Query the vectorstore and retrieve relevant documents.
-
-    #     Args:
-    #         query_text (str): The text query.
-    #         top_k (int): Number of top results to retrieve. Defaults to 5.
-
-    #     Returns:
-    #         list[Document]: List of retrieved Document objects.
-    #     """
-    #     if not self._retriever:
-    #         raise ValueError("Vectorstore is not initialized. Call `create_vectorstore` first.")
-    #     return self._retriever.get_relevant_documents(query_text, top_k=top_k)
