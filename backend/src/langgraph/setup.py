@@ -1,12 +1,19 @@
+import sqlite3
+
 import langchain
 from langgraph.checkpoint.memory import MemorySaver
+
+# memory = MemorySaver()
+from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
 from src.core.config import config
 from src.langgraph.edges.grading import grade_documents
 from src.langgraph.nodes import agent, generate, retriever_tool, web_search
 
-memory = MemorySaver()
+db_path = "state_db/example.db"
+conn = sqlite3.connect(db_path, check_same_thread=False)
+memory = SqliteSaver(conn)
 
 
 if config.LANGCHAIN_DEBUG:

@@ -9,6 +9,7 @@ def agent(state: MessagesState):
     """
     Invokes the agent model to generate a response based on the current state. Given
     the human question, the agent should always decide to choose retriever tool.
+    The query given to the retriever tool should consider context of previous human messages.
 
     Args:
         state (messages): The current state
