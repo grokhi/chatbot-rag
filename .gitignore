@@ -17,4 +17,4 @@ data/*
 !data/datasets/ 
 !data/datasets/**
 
-state_db
+./state_db

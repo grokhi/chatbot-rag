@@ -48,7 +48,6 @@ def query_chatbot(chat_history, user_message, state):
     except Exception as e:
         chat_history.append({"role": "assistant", "content": f"Error: {str(e)}"})
 
-    # Return updated chat history and clear user input
     return chat_history, ""
 
 
